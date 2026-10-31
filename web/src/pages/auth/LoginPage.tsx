@@ -1,0 +1,14 @@
+import React,{useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {ArrowRightOutlined} from '@ant-design/icons';
+import {isAxiosError} from 'axios';
+import {useAdapter} from '../../app/adapterProvider';
+import {useAuthStore} from '../../store/authStore';
+import {t} from '@nihao-deutsch/shared';
+export const LoginPage:React.FC=()=>{
+ const [studentNo,setStudentNo]=useState('');const [password,setPassword]=useState('');const [loading,setLoading]=useState(false);const [error,setError]=useState<string|null>(null);
+ const navigate=useNavigate();const {auth}=useAdapter();const setAuth=useAuthStore(s=>s.setAuth);
+ const handleSubmit=async(e:React.FormEvent)=>{e.preventDefault();setLoading(true);setError(null);try{const result=await auth.login(studentNo,password);setAuth({userId:result.userId,studentNo:result.studentNo,name:result.name,classId:result.classId,role:result.role,isFirstBind:result.isFirstBind});if(result.isFirstBind)navigate('/bind',{replace:true});else navigate(result.role==='teacher'?'/teacher':result.role==='admin'?'/admin':'/student',{replace:true});}catch(err:unknown){const response=isAxiosError<{detail?:{remainingMinutes?:number}}>(err)?err.response:undefined;if(response?.status===423)setError(t('auth.accountLocked',{minutes:response.data?.detail?.remainingMinutes??''}));else if(response?.status===401)setError(t('auth.loginFailed'));else setError(t('common.serverError'));}finally{setLoading(false);}};
+ return <main className="paper-auth"><div className="paper-auth__inner"><div className="paper-auth__brand"><span lang="de">Sprung.</span><small>你好德语</small></div><p className="paper-eyebrow">WILLKOMMEN / 欢迎回来</p><h1>从今天的一点进步开始。</h1><p className="paper-description">登录你的学习空间，继续认识德语。</p><form className="paper-auth__card" onSubmit={handleSubmit}><label htmlFor="login-account">学号 / 教师账号</label><input className="paper-input" id="login-account" autoComplete="username" placeholder="请输入账号" value={studentNo} onChange={e=>setStudentNo(e.target.value)} required /><label htmlFor="login-password">密码</label><input className="paper-input" id="login-password" autoComplete="current-password" type="password" placeholder="请输入密码" value={password} onChange={e=>setPassword(e.target.value)} required />{error&&<p className="paper-auth__error" role="alert">{error}</p>}<button className="paper-button paper-button--primary paper-button--wide" type="submit" disabled={loading}>{loading?'登录中…':'进入学习空间'}<ArrowRightOutlined aria-hidden="true" /></button></form>{import.meta.env.DEV&&<details className="paper-auth__demo"><summary>本地演示账号</summary><p>学生：20240001 · 密码 demo123456</p><p>教师：T0001 · 密码 demo123456</p><p>管理员：admin · 密码 admin123456</p></details>}<p className="paper-auth__footer">复习与新学，按计划慢慢来。</p></div></main>;
+};
+export default LoginPage;

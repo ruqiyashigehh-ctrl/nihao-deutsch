@@ -1,0 +1,40 @@
+{
+  "name": "@nihao-deutsch/root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "你好德语（Sprung）—— 高校德语学习轻应用 monorepo",
+  "type": "module",
+  "workspaces": [
+    "web",
+    "server",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "concurrently -n web,server \"npm run dev -w web\" \"npm run dev -w server\"",
+    "dev:web": "npm run dev -w web",
+    "dev:server": "npm run dev -w server",
+    "build": "npm run build -w shared && npm run build -w server && npm run build -w web",
+    "build:shared": "npm run build -w shared",
+    "build:server": "npm run build -w server",
+    "build:web": "npm run build -w web",
+    "lint": "npm run lint -w shared && npm run lint -w server && npm run lint -w web",
+    "test": "npm run test -w server",
+    "typecheck": "npm run typecheck -w shared && npm run typecheck -w server && npm run typecheck -w web",
+    "migrate": "npm run migrate -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.4.5",
+    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^7.13.0",
+    "@typescript-eslint/parser": "^7.13.0",
+    "prettier": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "esbuild@0.21.5": true
+  }
+}

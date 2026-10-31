@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Build outputs
+dist/
+build/
+*/dist/
+*/build/
+
+# Data files
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+*/data/*.db
+*/data/*.db-journal
+*/data/*.db-wal
+*/data/*.db-shm
+
+# Environment
+**/.env
+**/.env.*
+!**/.env.example
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage
+coverage/
+*/coverage/
+
+# Cache
+.cache/
+.eslintcache
+*.tsbuildinfo.arts/
+.codeartsdoer/
+
+# CodeArts tooling
+.arts/
+.merkle-snapshot.json
