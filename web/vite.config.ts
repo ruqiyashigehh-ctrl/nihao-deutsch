@@ -5,6 +5,7 @@ import postcssPxtorem from 'postcss-pxtorem';
 import autoprefixer from 'autoprefixer';
 
 export default defineConfig({
+  base: '/nihao-deutsch/',
   plugins: [react()],
   resolve: {
     alias: {
