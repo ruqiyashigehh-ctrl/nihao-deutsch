@@ -1,5 +1,4 @@
 name: Publish demo site
-
 on:
   push:
     branches: [main]
@@ -33,7 +32,7 @@ jobs:
       - name: Build demo app
         run: |
           npm run build -w shared
-          npm run build -w web
+          npm exec --workspace web -- vite build
         env:
           VITE_USE_MOCK: 'true'
           VITE_PLATFORM: h5
